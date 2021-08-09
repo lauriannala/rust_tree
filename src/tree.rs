@@ -1,26 +1,28 @@
 
-pub trait Tree<T: ?Sized> {
-    fn leaf(self) -> T;
-    fn left(self) -> Box<dyn Tree<T>>;
-    fn right(self) -> Box<dyn Tree<T>>;
+pub enum Tree<T> {
+    Leaf(T),
+    Fork(T, T),
 }
 
-pub struct Leaf<T>(pub T);
+impl<T> Tree<T> {
+    pub fn left(&mut self) -> &mut T {
+        match self {
+            Self::Leaf(ref mut _leaf) => panic!("left - Should not be called on Leaf!"),
+            Self::Fork(ref mut left, ref mut _right) => left
+        }
+    }
 
-impl<T> Tree<T> for Leaf<T> {
-    fn leaf(self) -> T { self.0 }
+    pub fn right(&mut self) -> &mut T {
+        match self {
+            Self::Leaf(ref mut _leaf) => panic!("right - Should not be called on Leaf!"),
+            Self::Fork(ref mut _left, ref mut right) => right
+        }
+    }
 
-    fn left(self) -> Box<dyn Tree<T>> { panic!("left - Should not be called on Leaf!"); }
-
-    fn right(self) -> Box<dyn Tree<T>> { panic!("right - Should not be called on Leaf!"); }
-}
-
-pub struct Fork<T>((Box<dyn Tree<T>>, Box<dyn Tree<T>>));
-
-impl<T> Tree<T> for Fork<T> {
-    fn leaf(self) -> T { panic!("leaf - Should not be called on Fork!") }
-
-    fn left(self) -> Box<dyn Tree<T>> { self.0.0 }
-
-    fn right(self) -> Box<dyn Tree<T>> { self.0.1 }
+    pub fn leaf(&mut self) -> &mut T {
+        match self {
+            Self::Leaf(ref mut leaf) => leaf,
+            Self::Fork(ref mut _left, ref mut _right) => panic!("leaf - Should not be called on Fork!")
+        }
+    }
 }
