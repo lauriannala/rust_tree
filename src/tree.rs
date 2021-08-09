@@ -1,10 +1,12 @@
 
 pub trait Tree<T> {
-    fn left() -> &'static mut T;
-    fn right() -> &'static mut T;
-    fn leaf() -> &'static mut T;
+    fn leaf(self) -> T;
 }
 
-pub fn run() {
-    println!("Hello world!");
+pub struct Leaf<T>(pub T);
+
+impl<T> Tree<T> for Leaf<T> {
+    fn leaf(self) -> T {
+        self.0
+    }
 }

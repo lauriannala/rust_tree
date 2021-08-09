@@ -1,5 +1,8 @@
+use crate::tree::Tree;
 mod tree;
 
 fn main() {
-    tree::run();
+    let tree = tree::Leaf(1);
+
+    println!("Leaf value: {}", tree.leaf());
 }
