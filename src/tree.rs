@@ -1,18 +1,18 @@
 
 pub enum Tree<T> {
     Leaf(T),
-    Fork(T, T),
+    Fork(Box<Tree<T>>, Box<Tree<T>>)
 }
 
 impl<T> Tree<T> {
-    pub fn left(&mut self) -> &mut T {
+    pub fn left(&mut self) -> &mut Box<Tree<T>> {
         match self {
             Self::Leaf(ref mut _leaf) => panic!("left - Should not be called on Leaf!"),
             Self::Fork(ref mut left, ref mut _right) => left
         }
     }
 
-    pub fn right(&mut self) -> &mut T {
+    pub fn right(&mut self) -> &mut Box<Tree<T>> {
         match self {
             Self::Leaf(ref mut _leaf) => panic!("right - Should not be called on Leaf!"),
             Self::Fork(ref mut _left, ref mut right) => right
