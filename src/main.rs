@@ -21,4 +21,6 @@ fn main() {
             )),
             Box::new(Tree::Leaf(3)),
     ));
+
+    assert_eq!(tree.to_string(), "[[1, 3], 3]");
 }
