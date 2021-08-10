@@ -1,5 +1,7 @@
 mod tree;
 use crate::tree::Tree;
+use crate::tree::TreeVisitor;
+use crate::tree::Visitor;
 
 fn main() {
     let mut tree = Tree::Fork(
@@ -23,4 +25,5 @@ fn main() {
     ));
 
     assert_eq!(tree.to_string(), "[[1, 3], 3]");
+    Visitor.visit(&tree);
 }

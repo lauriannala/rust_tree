@@ -48,3 +48,29 @@ impl<T: Display> fmt::Display for Tree<T> {
         write!(f, "{}", build_str(self))
     }
 }
+
+pub trait TreeVisitor<T: Display> {
+    fn visit(&mut self, content: &Tree<T>);
+    fn visit_leaf(&mut self, content: &T);
+    fn visit_fork(&mut self, left: &Box<Tree<T>>, right: &Box<Tree<T>>);
+}
+
+pub struct Visitor;
+impl<T:Display> TreeVisitor<T> for Visitor {
+    fn visit(&mut self, content: &Tree<T>) {
+        match content {
+            Tree::Leaf(leaf) => self.visit_leaf(leaf),
+            Tree::Fork(left, right) => self.visit_fork(left, right),
+        }
+    }
+
+    fn visit_leaf(&mut self, content: &T) {
+        println!("Visiting leaf, content: {}", content);
+    }
+
+    fn visit_fork(&mut self, left: &Box<Tree<T>>, right: &Box<Tree<T>>) {
+        println!("Visiting fork, left: {}, right: {}", left, right);
+        self.visit(left.deref());
+        self.visit(right.deref());
+    }
+}
