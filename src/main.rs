@@ -1,8 +1,15 @@
 mod tree;
+
 use crate::tree::Tree;
 use crate::tree::TreeVisitor;
 use crate::tree::Visitor;
 use crate::tree::ElementCount;
+
+impl<T> ElementCount for &[T] {
+    fn element_count(&self) -> usize {
+        self.len()
+    }
+}
 
 fn main() {
     let mut tree = Tree::Fork(
@@ -28,4 +35,7 @@ fn main() {
     assert_eq!(tree.to_string(), "[[1, 3], 3]");
     Visitor.visit(&tree);
     assert_eq!(tree.element_count(), 3);
+
+    let slice: &[i32] = &[1, 2, 3, 4];
+    assert_eq!(slice.element_count(), 4);
 }

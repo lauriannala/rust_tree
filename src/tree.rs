@@ -76,12 +76,12 @@ impl<T: Display> TreeVisitor<T> for Visitor {
 }
 
 pub trait ElementCount {
-    fn element_count(&mut self) -> u32;
+    fn element_count(&self) -> usize;
 }
 
 impl<T: Display> ElementCount for Tree<T> {
-    fn element_count(&mut self) -> u32 {
-        fn get_count<T: Display>(tree: &Tree<T>) -> u32 {
+    fn element_count(&self) -> usize {
+        fn get_count<T: Display>(tree: &Tree<T>) -> usize {
             match tree {
                 Tree::Leaf(_) => 1,
                 Tree::Fork(left, right) => get_count(left.deref()) + get_count(right.deref())
