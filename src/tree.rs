@@ -56,7 +56,7 @@ pub trait TreeVisitor<T: Display> {
 }
 
 pub struct Visitor;
-impl<T:Display> TreeVisitor<T> for Visitor {
+impl<T: Display> TreeVisitor<T> for Visitor {
     fn visit(&mut self, content: &Tree<T>) {
         match content {
             Tree::Leaf(leaf) => self.visit_leaf(leaf),
@@ -72,5 +72,22 @@ impl<T:Display> TreeVisitor<T> for Visitor {
         println!("Visiting fork, left: {}, right: {}", left, right);
         self.visit(left.deref());
         self.visit(right.deref());
+    }
+}
+
+pub trait ElementCount {
+    fn element_count(&mut self) -> u32;
+}
+
+impl<T: Display> ElementCount for Tree<T> {
+    fn element_count(&mut self) -> u32 {
+        fn get_count<T: Display>(tree: &Tree<T>) -> u32 {
+            match tree {
+                Tree::Leaf(_) => 1,
+                Tree::Fork(left, right) => get_count(left.deref()) + get_count(right.deref())
+            }
+        }
+
+        get_count(self)
     }
 }
