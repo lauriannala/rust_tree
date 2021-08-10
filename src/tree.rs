@@ -1,4 +1,5 @@
 
+#[derive(PartialEq, Debug)]
 pub enum Tree<T> {
     Leaf(T),
     Fork(Box<Tree<T>>, Box<Tree<T>>)

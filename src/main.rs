@@ -12,7 +12,13 @@ fn main() {
 
     *tree.left().right().leaf() = 3;
 
-    assert_eq!(tree.left().left().leaf(), &mut 1);
-    assert_eq!(tree.left().right().leaf(), &mut 3);
-    assert_eq!(tree.right().leaf(), &mut 3);
+    assert_eq!(
+        tree,
+        Tree::Fork(
+            Box::new(Tree::Fork(
+                Box::new(Tree::Leaf(1)),
+                Box::new(Tree::Leaf(3))
+            )),
+            Box::new(Tree::Leaf(3)),
+    ));
 }
